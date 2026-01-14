@@ -66,5 +66,4 @@ dependencies {
 
     implementation(libs.mmkv)
     implementation(libs.gson)
-    implementation(libs.tinypinyin)
 }
