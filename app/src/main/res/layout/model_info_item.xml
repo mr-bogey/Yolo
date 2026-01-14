@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="?attr/materialCardViewFilledStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge.Emphasized" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/delete"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:backgroundTint="@color/fill_button_background_error_check"
+                android:checkable="true"
+                android:padding="4dp"
+                app:icon="@drawable/icon_delete"
+                app:iconTint="@color/button_container_check" />
+
+        </LinearLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.75"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/version"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

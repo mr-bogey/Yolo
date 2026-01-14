@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Yolo</string>
+    <string name="model_manager">模型管理</string>
+    <string name="importing">正在导入模型…</string>
+    <string name="import_success">导入成功</string>
+    <string name="import_failed">导入失败</string>
+
+    <string name="model_labels">模型目标列表</string>
+    <string name="copy_tips">已复制</string>
+
+    <string name="year">%d年</string>
+    <string name="month">%d月</string>
+    <string name="day">%d日</string>
+</resources>
