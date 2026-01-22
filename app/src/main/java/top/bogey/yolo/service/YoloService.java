@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.google.ai.edge.litert.Accelerator;
 import com.google.ai.edge.litert.CompiledModel;
+import com.google.ai.edge.litert.Environment;
 import com.google.ai.edge.litert.LiteRtException;
 import com.google.ai.edge.litert.TensorBuffer;
 
@@ -31,8 +32,8 @@ import top.bogey.yolo.bean.ModelInfo;
 import top.bogey.yolo.bean.YoloManager;
 
 public class YoloService extends Service {
-    private final Map<String, CompiledModel> cpuModelCache = new HashMap<>();
-    private final Map<String, CompiledModel> gpuModelCache = new HashMap<>();
+    private Environment gpuEnvironment;
+    private final Map<String, CompiledModel> modelCache = new HashMap<>();
 
     private final IYolo.Stub stub = new IYolo.Stub() {
         private static final float IOU_THRESHOLD = 0.5f;
@@ -113,33 +114,21 @@ public class YoloService extends Service {
 
         private CompiledModel getModel(ModelInfo modelInfo) {
             String modelPath = yoloManager.getModelPath(YoloService.this, modelInfo.getId());
-            switch (modelInfo.getAccelerator()) {
-                case GPU -> {
-                    CompiledModel model = gpuModelCache.get(modelInfo.getId());
-                    if (model != null) return model;
-                    gpuModelCache.forEach((id, cacheModel) -> cacheModel.close());
-                    gpuModelCache.clear();
-                    try {
-                        model = CompiledModel.create(modelPath, new CompiledModel.Options(Accelerator.GPU));
-                        gpuModelCache.put(modelInfo.getId(), model);
-                    } catch (LiteRtException ignored) {
+            CompiledModel model = modelCache.get(modelInfo.getId());
+            if (model != null) return model;
+            try {
+                switch (modelInfo.getAccelerator()) {
+                    case GPU -> {
+                        if (gpuEnvironment == null) gpuEnvironment = Environment.create();
+                        model = CompiledModel.create(modelPath, new CompiledModel.Options(Accelerator.GPU), gpuEnvironment);
                     }
-                    return model;
+                    case CPU -> model = CompiledModel.create(modelPath, new CompiledModel.Options(Accelerator.CPU));
                 }
-                case CPU -> {
-                    CompiledModel model = cpuModelCache.get(modelInfo.getId());
-                    if (model != null) return model;
-                    try {
-                        model = CompiledModel.create(modelPath, new CompiledModel.Options(Accelerator.CPU));
-                        cpuModelCache.put(modelInfo.getId(), model);
-                    } catch (LiteRtException ignored) {
-                    }
-                    return model;
-                }
-                default -> {
-                    return null;
-                }
+                modelCache.put(modelInfo.getId(), model);
+            } catch (LiteRtException ignored) {
+                modelCache.forEach((key, value) -> value.close());
             }
+            return model;
         }
 
         private List<YoloResult> parseOutput(float[] output, ModelInfo modelInfo, float confThreshold) {
@@ -265,9 +254,7 @@ public class YoloService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        cpuModelCache.forEach((id, model) -> model.close());
-        cpuModelCache.clear();
-        gpuModelCache.forEach((id, model) -> model.close());
-        gpuModelCache.clear();
+        modelCache.forEach((id, model) -> model.close());
+        modelCache.clear();
     }
 }
