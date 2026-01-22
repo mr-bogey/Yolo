@@ -4,7 +4,7 @@ appcompat = "1.7.1"
 material = "1.13.0"
 
 litert = "2.1.0"
-litert-support = "1.4.1"
+litert-support-api = "1.4.1"
 
 gson = "2.13.2"
 mmkv = "2.3.0"
@@ -14,7 +14,7 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 litert = { group = "com.google.ai.edge.litert", name = "litert", version.ref = "litert" }
-litert-support = { group = "com.google.ai.edge.litert", name = "litert-support", version.ref = "litert-support" }
+litert-support-api = { group = "com.google.ai.edge.litert", name = "litert-support-api", version.ref = "litert-support-api" }
 
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }

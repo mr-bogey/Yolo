@@ -74,6 +74,8 @@ public class YoloService extends Service {
                 resultFloatArray = outputs.get(0).readFloat();
             } catch (LiteRtException e) {
                 e.printStackTrace();
+                CompiledModel remove = modelCache.remove(modelInfo.getId());
+                if (remove != null) remove.close();
             } finally {
                 if (inputs != null) inputs.forEach(TensorBuffer::close);
                 if (outputs != null) outputs.forEach(TensorBuffer::close);

@@ -63,7 +63,7 @@ dependencies {
     implementation(libs.material)
 
     implementation(libs.litert)
-    implementation(libs.litert.support) {
+    implementation(libs.litert.support.api) {
         exclude(group = "com.google.ai.edge.litert", module = "litert-api")
     }
 
