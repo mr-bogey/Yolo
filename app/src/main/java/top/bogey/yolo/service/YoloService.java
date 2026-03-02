@@ -42,7 +42,7 @@ public class YoloService extends Service {
         @Override
         public void runYolo(Bitmap bitmap, String modelName, float similarity, IYoloCallback callback) throws RemoteException {
             ModelInfo modelInfo = yoloManager.findModel(modelName);
-            if (modelInfo == null) {
+            if (bitmap == null || modelInfo == null) {
                 callback.onResult(new ArrayList<>());
                 return;
             }
